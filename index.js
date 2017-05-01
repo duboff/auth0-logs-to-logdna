@@ -1,4 +1,4 @@
-const Loggly    = require('loggly');
+const Logger    = require('logdna');
 const async     = require('async');
 const moment    = require('moment');
 const useragent = require('useragent');
@@ -8,9 +8,14 @@ const app       = express();
 const Request   = require('request');
 const memoizer  = require('lru-memoizer');
 
+const options = {
+    hostname: 'auth0',
+    app: 'auth0'
+};
+
 function lastLogCheckpoint (req, res) {
   let ctx               = req.webtaskContext;
-  let required_settings = ['AUTH0_DOMAIN', 'AUTH0_CLIENT_ID', 'AUTH0_CLIENT_SECRET', 'LOGGLY_CUSTOMER_TOKEN'];
+  let required_settings = ['AUTH0_DOMAIN', 'AUTH0_CLIENT_ID', 'AUTH0_CLIENT_SECRET', 'LOGDNA_API_KEY', 'LOGDNA_HOSTNAME', 'LOGDNA_APP_NAME'];
   let missing_settings  = required_settings.filter((setting) => !ctx.data[setting]);
 
   if (missing_settings.length) {
@@ -22,11 +27,14 @@ function lastLogCheckpoint (req, res) {
     let startFromId = ctx.data.START_FROM ? ctx.data.START_FROM : null;
     let startCheckpointId = typeof data === 'undefined' ? startFromId : data.checkpointId;
 
-    const loggly = Loggly.createClient({
-      token:     ctx.data.LOGGLY_CUSTOMER_TOKEN,
-      subdomain: ctx.data.LOGGLY_SUBDOMAIN || '-',
-      tags:      ['auth0']
-    });
+    const options = {
+        hostname: ctx.data.LOGDNA_HOSTNAME,
+        app: ctx.data.LOGDNA_APP_NAME,
+    };
+
+    options.index_meta = true;
+
+    const logger = Logger.setupDefaultLogger(ctx.data.LOGDNA_API_KEY, options);
 
     // Start the process.
     async.waterfall([
@@ -83,10 +91,10 @@ function lastLogCheckpoint (req, res) {
       (context, callback) => {
         console.log(`Sending ${context.logs.length}`);
 
-        // loggly
-        loggly.log(context.logs, (err) => {
+        // logDNA
+        logger.log(context.logs, (err) => {
           if (err) {
-            console.log('Error sending logs to Loggly', err);
+            console.log('Error sending logs to LogDNA', err);
             return callback(err);
           }
 
