@@ -1,8 +1,8 @@
-# Auth0 - Logs to Loggly
+# Auth0 - Logs to LogDNA
 
 [![Auth0 Extensions](http://cdn.auth0.com/extensions/assets/badge.svg)](https://sandbox.it.auth0.com/api/run/auth0-extensions/extensions-badge?webtask_no_cache=1)
 
-This extension will take all of your Auth0 logs and export them to Loggly.
+This extension will take all of your Auth0 logs and export them to LogDNA.
 
 ## Configure Webtask
 
@@ -22,14 +22,15 @@ To run it on a schedule (run every 5 minutes for example):
 ```bash
 $ npm run build
 $ wt cron schedule \
-    --name auth0-logs-to-loggly \
+    --name auth0-logs-to-logdna \
     --secret AUTH0_DOMAIN="YOUR_AUTH0_DOMAIN" \
     --secret AUTH0_GLOBAL_CLIENT_ID="YOUR_AUTH0_GLOBAL_CLIENT_ID" \
     --secret AUTH0_GLOBAL_CLIENT_SECRET="YOUR_AUTH0_GLOBAL_CLIENT_SECRET" \
     --secret LOG_LEVEL="1" \
     --secret LOG_TYPES="s,f" \
-    --secret LOGGLY_CUSTOMER_TOKEN="LOGGLY_CUSTOMER_TOKEN" \
-    --secret LOGGLY_SUBDOMAIN="LOGGLY_SUBDOMAIN" \
+    --secret LOGDNA_API_KEY="LOGDNA_API_KEY" \
+    --secret LOGDNA_HOSTNAME="LOGDNA_HOSTNAME" \
+    --secret LOGDNA_APP_NAME="LOGDNA_APP_NAME" \
     "*/5 * * * *" \
     ./build/bundle.js
 ```
@@ -39,15 +40,16 @@ The following settings are optional:
 
  - `LOG_LEVEL`: This allows you to specify the log level of events that need to be sent.
  - `LOG_TYPES`: If you only want to send events with a specific type (eg: failed logins). This needs to be a comma separated list.
- - `LOGGLY_SUBDOMAIN`: Your subdomain at Loggly.
+ - `LOGDNA_HOSTNAME`: Your preferred hostname on LogDNA.
+ - `LOGDNA_APP_NAME`: Your preferred App Name on LogDNA.
 
 > You can get your Global Client Id/Secret here: https://auth0.com/docs/api/v1
 
-Note: For getting a `LOGGLY_CUSTOMER_TOKEN` please check this [link](https://www.loggly.com/docs/customer-token-authentication-token/).
+Note: For getting a `LOGDNA_API_KEY` please check this [link](https://app.logdna.com/manage/profile).
 
 ## Usage
 
-Go to the `search` section of your [Loggly](https://www.loggly.com) account and filter by tag `auth0`.
+Go to the `search` section of your [LogDNA](https://www.logdna.com) account and filter by tag `auth0`.
 
 ## Filters
 
