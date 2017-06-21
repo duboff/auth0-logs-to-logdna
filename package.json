@@ -1,21 +1,21 @@
 {
-  "name": "auth0-logs-to-loggly",
+  "name": "auth0-logs-to-logdna",
   "version": "1.4.1",
-  "description": "This extension will take all of your Auth0 logs and export them to Loggly.",
+  "description": "This extension will take all of your Auth0 logs and export them to LogDNA.",
   "main": "index.js",
   "scripts": {
     "build": "webpack"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/auth0/auth0-logs-to-loggly.git"
+    "url": "git+https://github.com/duboff/auth0-logs-to-logdna.git"
   },
-  "author": "javier.centurion@auth0.com",
+  "author": "mdubov@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/auth0/auth0-logs-to-loggly/issues"
+    "url": "https://github.com/duboff/auth0-logs-to-logdna/issues"
   },
-  "homepage": "https://github.com/auth0/auth0-logs-to-loggly#readme",
+  "homepage": "https://github.com/duboff/auth0-logs-to-logdna#readme",
   "dependencies": {
     "async": "1.0.0",
     "express": "4.14.0",
