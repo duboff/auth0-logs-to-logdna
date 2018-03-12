@@ -21,18 +21,16 @@ To run it on a schedule (run every 5 minutes for example):
 
 ```bash
 $ npm run build
-$ wt cron schedule \
+$ wt cron create --schedule "*/5 * * * *" ./build/bundle.js \
     --name auth0-logs-to-logdna \
     --secret AUTH0_DOMAIN="YOUR_AUTH0_DOMAIN" \
-    --secret AUTH0_GLOBAL_CLIENT_ID="YOUR_AUTH0_GLOBAL_CLIENT_ID" \
-    --secret AUTH0_GLOBAL_CLIENT_SECRET="YOUR_AUTH0_GLOBAL_CLIENT_SECRET" \
+    --secret AUTH0_CLIENT_ID="YOUR_AUTH0_GLOBAL_CLIENT_ID" \
+    --secret AUTH0_CLIENT_SECRET="YOUR_AUTH0_GLOBAL_CLIENT_SECRET" \
     --secret LOG_LEVEL="1" \
     --secret LOG_TYPES="s,f" \
     --secret LOGDNA_API_KEY="LOGDNA_API_KEY" \
     --secret LOGDNA_HOSTNAME="LOGDNA_HOSTNAME" \
-    --secret LOGDNA_APP_NAME="LOGDNA_APP_NAME" \
-    "*/5 * * * *" \
-    ./build/bundle.js
+    --secret LOGDNA_APP_NAME="LOGDNA_APP_NAME"
 ```
 
 
